@@ -46,7 +46,7 @@ for the function as well:
 This takes a function, `dict`, or `list`.  If it is a list, it will complete 
 anything from that list for every argument, if it is a dictionary, it will complete
 a key for the first argument and then one of the values for the second (you can nest
-dictionaries too).  For a function, it works the same as the `[completedefault][1]`
+dictionaries too).  For a function, it works the same as the [`completedefault`][1]
 function.
 
 [1]: https://docs.python.org/2/library/cmd.html#cmd.Cmd.completedefault
