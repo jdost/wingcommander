@@ -64,3 +64,21 @@ class WingCommander(cmd.Cmd):
             return True
 
         return cmd.Cmd.default(self, command)
+
+    def preloop(self):
+        self.old_completer_fix = None
+        try:
+            import readline
+            self.old_completer_fix = readline.get_completer()
+            readline.set_completer(self.complete)
+            if 'libedit' in readine.__doc__:
+                completekey = "^I" if self.completekey == "tab" \
+                        else self.completekey
+                readline.parse_and_bind("bind " + completekey
+                        + " rl_complete")
+        except ImportError:
+            pass
+
+    def postloop(self):
+        if self.old_completer_fix:
+            self.old_completer = self.old_completer_fix
