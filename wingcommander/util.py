@@ -27,7 +27,7 @@ def run(cmdr):
     if args[0].startswith("python"):
         args = args[1:]
 
-    if args > 1:
+    if len(args) > 1:
         return cmdr.onecmd(' '.join(args[1:]))
     else:
         return cmdr.cmdloop()

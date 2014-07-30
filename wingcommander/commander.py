@@ -71,7 +71,7 @@ class WingCommander(cmd.Cmd):
             import readline
             self.old_completer_fix = readline.get_completer()
             readline.set_completer(self.complete)
-            if 'libedit' in readine.__doc__:
+            if 'libedit' in readline.__doc__:
                 completekey = "^I" if self.completekey == "tab" \
                         else self.completekey
                 readline.parse_and_bind("bind " + completekey
