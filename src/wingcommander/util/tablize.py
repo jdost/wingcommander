@@ -8,8 +8,9 @@ LEFT = 'l'
 RIGHT = 'r'
 COLUMN_TEMPLATE = " {{:{0}{1}.{1}}} "
 
+
 def tablize(data, max_length=-1, keys=None, dividers=DIVIDERS, labels=None,
-        alignment=None):
+            alignment=None):
     if isinstance(data[0], dict):
         data = extract_dicts(data, keys)
 
@@ -21,11 +22,11 @@ def tablize(data, max_length=-1, keys=None, dividers=DIVIDERS, labels=None,
         frmt.append(COLUMN_TEMPLATE.format(
             translate_alignment(alignment[i] if alignment else None),
             str(sizes[i])))
-    frmt = (dividers[0] if dividers[0] else ' ').join(frmt)
+    frmt = (dividers[0] if dividers[0] else ' ').join(frmt).strip()
 
     if dividers[1]:
         row_divider = (dividers[2] if dividers[2] else dividers[1]).join(
-            [(s+2) * dividers[1] for s in sizes])
+            [(s + 2) * dividers[1] for s in sizes])
 
     output = [frmt.format(*labels)] if labels else []
 
@@ -36,11 +37,13 @@ def tablize(data, max_length=-1, keys=None, dividers=DIVIDERS, labels=None,
 
     return output
 
+
 def extract_dicts(data, keys):
     if keys is None:
         keys = data[0].keys()
 
     return [[d.get(k, '') for k in keys] for d in data]
+
 
 def calc_columns(data, max_length):
     sizes = map(
@@ -53,6 +56,7 @@ def calc_columns(data, max_length):
         return map(lambda x: min(x, max_length), sizes)
 
     return sizes
+
 
 def translate_alignment(alignment="l"):
     return "<" if alignment == "l" else "^" if alignment == "c" else ">"

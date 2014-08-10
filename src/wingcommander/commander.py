@@ -17,38 +17,8 @@ class WingCommander(cmd.Cmd):
     @classmethod
     def command(cls, cmd=None, completions=None):
         if not cmd:
-            if isinstance(completions, list):
-                completions = completions
-
-                def tmp(s, arg, text, *_args):
-                    if len(arg) == 0:
-                        return completions
-
-                    return [o for o in completions if o.startswith(arg)]
-                return lambda f: cls.command(cmd=f, completions=tmp)
-            elif isinstance(completions, dict):
-                completions = completions
-
-                def tmp(s, arg, text, *_args):
-                    args = text.split(' ')
-
-                    if len(args) == 1:
-                        return completions.keys()
-
-                    if len(args) <= 2:
-                        completion_set = completions.keys()
-                    else:
-                        lookup = args[len(args) - 2]
-                        completion_set = completions.get(lookup, [])
-
-                    if not len(arg):
-                        return completion_set
-
-                    return [o for o in completion_set if o.startswith(arg)]
-                return lambda f: cls.command(cmd=f, completions=tmp)
-
             return lambda f: cls.command(
-                cmd=f, completions=completions)
+                cmd=f, completions=util.gen_completion(completions))
 
         def cmd_help():
             print(cmd.__doc__)
@@ -73,9 +43,9 @@ class WingCommander(cmd.Cmd):
             readline.set_completer(self.complete)
             if 'libedit' in readline.__doc__:
                 completekey = "^I" if self.completekey == "tab" \
-                        else self.completekey
+                    else self.completekey
                 readline.parse_and_bind("bind " + completekey
-                        + " rl_complete")
+                                        + " rl_complete")
         except ImportError:
             pass
 

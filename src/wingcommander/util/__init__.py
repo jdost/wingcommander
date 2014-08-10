@@ -1,4 +1,6 @@
-__all__ = ["gen_prompt", "is_iterable", "run", "watch", "tablize"]
+__all__ = ["gen_prompt", "is_iterable", "run", "watch", "tablize",
+           "gen_completion"]
+
 
 def gen_prompt(cmd_):
     tree = [cmd_.name]
@@ -50,7 +52,7 @@ def watch(func, wait=1):
     try:
         while True:
             if longest > 0:  # ANSI goes up n lines at start
-                sys.stdout.write("\033[2K\033[F"*(longest))
+                sys.stdout.write("\033[2K\033[F" * (longest))
             else:  # clear line, move to start
                 sys.stdout.write("\033[2K\033[0G")
 
@@ -70,3 +72,4 @@ def watch(func, wait=1):
 
 
 from .tablize import tablize
+from .completion import gen_completion

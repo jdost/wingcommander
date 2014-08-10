@@ -12,7 +12,7 @@ class CmdTestCase(unittest.TestCase):
         self.stdin = StringIO("")
         self.stdout = StringIO("")
         self.cmd = TestShell(
-                name=__name__, stdin=self.stdin, stdout=self.stdout)
+            name=__name__, stdin=self.stdin, stdout=self.stdout)
 
     def tearDown(self):
         self.stdin.seek(0)
@@ -53,7 +53,7 @@ class CmdTestCase(unittest.TestCase):
         tmp = line.split(' ')
         current = tmp[-1]
         completions = getattr(self.cmd, self.cmp_name(cmd))(
-                current, line, 0, len(tmp))
+            current, line, 0, len(tmp))
 
         self.assertListEqual(src_completions, completions)
 
@@ -70,4 +70,5 @@ class CmdTestCase(unittest.TestCase):
 
         self.seedInput(lines)
         r = getattr(self.cmd, self.cmd_name(cmd_))(args)
-        return self.collectOutput() if (isinstance(r, bool) or r is None) else r
+        return self.collectOutput() if (isinstance(r, bool) or r is None) \
+            else r
