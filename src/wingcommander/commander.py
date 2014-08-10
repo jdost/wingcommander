@@ -7,8 +7,8 @@ import sys
 class WingCommander(cmd.Cmd):
     END_CMDS = ['back', 'exit', 'EOF']
 
-    def __init__(self, name="", parent=None):
-        cmd.Cmd.__init__(self)
+    def __init__(self, name="", parent=None, *args, **kwargs):
+        cmd.Cmd.__init__(self, *args, **kwargs)
         self.parent = parent
         self.name = name
         self.prompt = util.gen_prompt(self)
