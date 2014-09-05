@@ -1,5 +1,7 @@
 # Wing Commander
 
+Status: [![Travis Status](https://travis-ci.org/jdost/wingcommander.svg?branch=master)](https://travis-ci.org/jdost/wingcommander)
+
 ## Making python's `cmd` module better
 
 The `cmd` module for python makes writing readline applications accessible, this is
