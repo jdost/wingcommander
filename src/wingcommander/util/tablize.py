@@ -16,9 +16,12 @@ class Table(list):
 
 def tablize(data, max_length=-1, keys=None, dividers=DIVIDERS, labels=None,
             alignment=None):
-    if isinstance(data[0], dict):
+    if not len(data):
+        return None
+    if len(data) and isinstance(data[0], dict):
         data = extract_dicts(data, keys)
 
+    data = clean_up(data)
     sizes = calc_columns(data, max_length)
 
     frmt = []
@@ -51,9 +54,12 @@ def extract_dicts(data, keys):
 
 
 def calc_columns(data, max_length):
-    sizes = map(
-        lambda x: max(*map(len, [d[x] for d in data])),
-        range(len(data[0])))
+    if len(data) > 1:
+        sizes = map(
+            lambda x: max(*map(lambda s: len(str(s)), [d[x] for d in data])),
+            range(len(data[0])))
+    else:
+        sizes = map(lambda s: len(str(s)), data[0])
 
     if isinstance(max_length, list):
         return [min(max_length[i], sizes[i]) for i in range(len(sizes))]
@@ -61,6 +67,10 @@ def calc_columns(data, max_length):
         return map(lambda x: min(x, max_length), sizes)
 
     return sizes
+
+
+def clean_up(d):
+    return map(lambda x: map(str, x), d)
 
 
 def translate_alignment(alignment="l"):
