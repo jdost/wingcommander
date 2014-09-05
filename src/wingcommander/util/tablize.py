@@ -9,6 +9,11 @@ RIGHT = 'r'
 COLUMN_TEMPLATE = " {{:{0}{1}.{1}}} "
 
 
+class Table(list):
+    def __str__(self, *args, **kwargs):
+        return '\n'.join(self)
+
+
 def tablize(data, max_length=-1, keys=None, dividers=DIVIDERS, labels=None,
             alignment=None):
     if isinstance(data[0], dict):
@@ -28,7 +33,7 @@ def tablize(data, max_length=-1, keys=None, dividers=DIVIDERS, labels=None,
         row_divider = (dividers[2] if dividers[2] else dividers[1]).join(
             [(s + 2) * dividers[1] for s in sizes])
 
-    output = [frmt.format(*labels)] if labels else []
+    output = Table([frmt.format(*labels)] if labels else [])
 
     for d in data:
         if output and row_divider:
