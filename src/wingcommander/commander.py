@@ -24,7 +24,11 @@ class WingCommander(cmd.Cmd):
             print(cmd.__doc__)
 
         name = cmd.__name__
-        setattr(cls, "do_" + name, cmd)
+
+        def cmd_(cmdr, args):
+            return cmd(cmdr, *args.split(' '))
+
+        setattr(cls, "do_" + name, cmd_)
         setattr(cls, "help_" + name, cmd_help)
         if completions:
             setattr(cls, "complete_" + name, completions)
