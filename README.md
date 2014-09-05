@@ -90,7 +90,7 @@ print(tablize(list_users()))
 The `tablize` function takes a list of lists (or dictionaries) and creates an 
 aligned output in a table form.  The above command would output:
 ```
-jdost  | github  | python
+ jdost |  github | python
 tester | twitter | tweets
 ```
 
