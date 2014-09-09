@@ -23,3 +23,7 @@ clean:
 	rm -f ./src/wincommander/*.pyc
 	rm -f ./src/wingcommander/util/*.pyc
 	rm -f ./tests/*.pyc
+
+publish:
+	python setup.py register
+	python setup.py sdist upload --sign --identity=2073CDA5

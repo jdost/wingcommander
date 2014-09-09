@@ -1,2 +1,5 @@
 *.pyc
 test_scripts/*
+
+dist/*
+*.egg-info
