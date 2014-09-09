@@ -71,5 +71,5 @@ def watch(func, wait=1):
         return
 
 
-from .tablize import tablize
-from .completion import gen_completion
+from wingcommander.util.tablize import tablize
+from wingcommander.util.completion import gen_completion

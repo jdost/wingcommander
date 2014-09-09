@@ -1,6 +1,6 @@
 import cmd
 import logging
-from . import util
+from wingcommander import util
 import sys
 
 
