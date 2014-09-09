@@ -28,3 +28,6 @@ clean:
 publish:
 	python setup.py register
 	python setup.py sdist upload --sign --identity=2073CDA5
+
+shell:
+	${PYTHONPATH} python

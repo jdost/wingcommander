@@ -2,4 +2,5 @@
 test_scripts/*
 
 dist/*
+build/*
 *.egg-info

@@ -12,9 +12,8 @@ try:
 except ImportError:
     from distutils.core import setup
 
-f = open('README.md', 'r')
-readme = f.read()
-f.close()
+with open('README.md', 'r') as f:
+    readme = f.read()
 
 tags = [
     "Development Status :: 3 - Alpha",
@@ -28,6 +27,11 @@ tags = [
     "Programming Language :: Python :: 2.7",
 ]
 
+packages = [
+    "wingcommander",
+    "wingcommander.util",
+]
+
 setup(
     name="wingcommander",
     version=wingcommander.__version__,
@@ -39,8 +43,11 @@ setup(
     author_email="jostendorf@gmail.com",
     url="http://jdost.us/wingcommander/",
 
-    packages=['wingcommander'],
-    package_dir={'wingcommander': 'src/wingcommander'},
+    packages=packages,
+    package_dir={
+        'wingcommander': 'src/wingcommander',
+        'wingcommander.util': 'src/wingcommander/util',
+    },
     package_data={'': ['LICENSE']},
     include_package_data=True,
 
