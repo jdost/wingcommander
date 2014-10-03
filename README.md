@@ -114,3 +114,37 @@ The function takes various optional arguments such as `max_length`, `keys`,
 * `alignment` is a list of characters that denote how the columns will be aligned,
   options are `c` for center, `r` for right, and `l` for left, you can also use
   `tablize.LEFT`, `tablize.CENTER`, and `tablize.RIGHT` (this is preferable)
+
+### `smartparse`
+
+```python
+@smartparse
+@alias("debug", "d", "dbg")
+def test_func(a, debug=False, name="Tester"):
+   if debug:
+      print("debug: {}: {}".format(name, a))
+   else:
+      print(name)
+```
+
+The `smartparse` and `alias` decorators allow for arguments passed into a command 
+function be handled smartly.  Examples of how it would work:
+```
+$ test_func --debug 1
+debug: Tester: 1
+$ test_func -d 2
+debug: Tester: 2
+$ test_func --name bar 3
+bar
+$ test_func --no-debug 4
+Tester
+```
+
+The `smartparse` decorator uses the `inspect` module to determine some of the 
+expected arguments and loops through the argument list, finding arguments that start
+with the `--` prefix, then, based on the function signature, will populate the
+keyword arguments for the function as expected.
+
+The `alias` decorator allows for these parsed argument names to be translated to the
+expected keyword argument.  If the alias is a single character, it can be prefixed
+with just `-`.

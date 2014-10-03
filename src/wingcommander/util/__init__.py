@@ -1,5 +1,5 @@
 __all__ = ["gen_prompt", "is_iterable", "run", "watch", "tablize",
-           "gen_completion"]
+           "gen_completion", "alias", "smartparse"]
 
 
 def gen_prompt(cmd_):
@@ -73,3 +73,4 @@ def watch(func, wait=1):
 
 from wingcommander.util.tablize import tablize
 from wingcommander.util.completion import gen_completion
+from wingcommander.util.smartparse import alias, smartparse
