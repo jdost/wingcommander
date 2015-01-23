@@ -1,6 +1,7 @@
 import cmd
 import logging
 from wingcommander import util
+from wingcommander.command import Command
 import sys
 
 
@@ -17,21 +18,13 @@ class WingCommander(cmd.Cmd):
     @classmethod
     def command(cls, cmd=None, completions=None):
         if not cmd:
-            return lambda f: cls.command(
-                cmd=f, completions=util.gen_completion(completions))
+            return lambda f: cls.command(cmd=f, completions=completions)
 
-        def cmd_help():
-            print(cmd.__doc__)
+        if not isinstance(cmd, Command):
+            cmd = Command(cmd)
+            cmd.update_completion(completions)
 
-        name = cmd.__name__
-
-        def cmd_(cmdr, args):
-            return cmd(cmdr, *args.split(' '))
-
-        setattr(cls, "do_" + name, cmd_)
-        setattr(cls, "help_" + name, cmd_help)
-        if completions:
-            setattr(cls, "complete_" + name, completions)
+        cmd.__attach__(cls)
 
     def default(self, command):
         if command in self.END_CMDS:

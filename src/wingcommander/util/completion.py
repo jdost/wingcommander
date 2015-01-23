@@ -10,7 +10,7 @@ def gen_completion(completions):
 def gen_from_list(completions):
     completions = completions
 
-    def tmp(s, arg, text, *_args):
+    def tmp(arg, text, *_args):
         if len(arg) == 0:
             return completions
 
@@ -22,7 +22,7 @@ def gen_from_list(completions):
 def gen_from_dict(completions):
     completions = completions
 
-    def tmp(s, arg, text, *_args):
+    def tmp(arg, text, *_args):
         args = text.split(' ')
 
         if len(args) == 1:
