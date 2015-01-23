@@ -1,4 +1,5 @@
 from wingcommander.util import gen_completion
+import types
 
 
 class Command(object):
@@ -17,8 +18,8 @@ class Command(object):
         ''' update_help
         Takes a string as an argument and updates the help text for the command
         '''
-        self.help_text = txt if isinstance(txt, str) and len(txt) > 0 \
-            else self.help_text
+        self.help_text = txt if isinstance(txt, str) \
+            and len(txt) > 0 else self.help_text
 
     def update_completion(self, completions):
         ''' update_completion
@@ -41,12 +42,19 @@ class Command(object):
         '''
         return self.complete(*args, **kwargs) if self.complete else None
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, cmdr, *args, **kwargs):
         ''' __call__
         Calls the wrapped base command and normalizes the output to be a list
         of the lines of output.
         '''
-        output = self.__command__(*args, **kwargs)
+        pass_generator = kwargs.get("pass_generator", False)
+        if "pass_generator" in kwargs:
+            del kwargs["pass_generator"]
+
+        output = self.__command__(cmdr, *args, **kwargs)
+
+        if isinstance(output, types.GeneratorType) and not pass_generator:
+            output = map(lambda x: x, output)
 
         if isinstance(output, tuple):
             output = list(output)
@@ -61,10 +69,15 @@ class Command(object):
         prints whatever the command returns if it is a list, otherwise forwards
         the value to controller.
         '''
-        output = self.__call__(self, cmdr, *args.split(' '))
+        output = self.__call__(self, cmdr, *args.split(' '),
+                               pass_generator=True)
         if isinstance(output, list):
             print '\n'.join(output)
             return len(output) == 0
+        elif isinstance(output, types.GeneratorType):
+            for line in output:
+                print line
+            return True
 
         return output
 

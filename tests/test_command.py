@@ -8,6 +8,13 @@ def foo(cmdr, *args):
 cmd = Command(foo)
 
 
+def gen_function(cmdr, *args):
+    for x in args:
+        yield x
+
+gen_cmd = Command(gen_function)
+
+
 class CommmandTest(unittest.TestCase):
     def test_basic(self):
         ''' Checks the basic API for the command
@@ -37,3 +44,21 @@ class CommmandTest(unittest.TestCase):
         self.assertEquals(None, cmd.__complete__(""))
         cmd.update_completion(["foo", "bar"])
         self.assertNotEquals(None, cmd.__complete__("", ""))
+
+    def test_generator(self):
+        ''' Using a generator as a command works
+        If the command wrapped by the Command object is a generator, it should
+        be handled cleanly.
+        '''
+        self.assertEquals(["foo", "bar", "baz"],
+                          gen_cmd(None, "foo", "bar", "baz"))
+
+    def test_pass_generator(self):
+        ''' The 'pass_generator' argument is honored
+        Setting the `pass_generator` argument to True will return the generator
+        rather than the list that is generated.
+        '''
+        import types
+        self.assertIsInstance(
+            gen_cmd(None, "foo", "bar", "baz", pass_generator=True),
+            types.GeneratorType)
