@@ -35,6 +35,31 @@ def run(cmdr):
 
 
 def watch(func, wait=1):
+    ''' Behaves like the ``watch`` command from unix command line.  Will
+    refresh the terminal stdout area at a specific interval with the output
+    from a defined function.  This can be used to regularly show output from an
+    external source and provide a realtime updating text area that will resize
+    with the data to display.  Can be stopped with user input from stdin.
+
+    :param func: function that is to be generating the output to be displayed.
+     The output is whatever the function returns on each execution.
+    :param wait: amount of time to sleep between executions of the function in
+     order to update the display
+
+    Usage: ::
+
+        from wingcommander.util import watch
+
+        def print_file():
+            contents = None
+            with open('data', 'r') as f:
+                contents = f.readlines()
+                f.close()
+            return contents
+
+        watch(print_file, 0.5)
+
+    '''
     import sys
     import time
     import thread

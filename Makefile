@@ -25,9 +25,25 @@ clean:
 	rm -f ./src/wingcommander/util/*.pyc
 	rm -f ./tests/*.pyc
 
+shell:
+	${PYTHONPATH} python
+
 publish:
 	python setup.py register
 	python setup.py sdist upload --sign --identity=2073CDA5
+	python setup.py bdist_wheel upload --sign --indentity=2073CDA5
 
-shell:
-	${PYTHONPATH} python
+docs-init:
+	pip install -r docs/requirements.txt
+
+docs: docs-init
+	cd docs && make html
+
+docs-serve:
+	cd docs/build/html/ && python -m SimpleHTTPServer 8080
+
+docs-publish: clean docs
+	git co gh-pages
+	mv docs/build/html/* .
+	git commit -a
+	git push

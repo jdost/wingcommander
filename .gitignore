@@ -4,3 +4,5 @@ test_scripts/*
 dist/*
 build/*
 *.egg-info
+
+docs/build/*

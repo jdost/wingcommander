@@ -88,6 +88,36 @@ class Parser(object):
 
 
 def smartparse(func):
+    '''Converts the arguments going into the wrapped function to be
+    intelligently parsed.
+
+    The function will have its arguments parsed and translated based on the
+    rules defined in the decorators of the function using the ``alias``
+    decorator to allow for flags to be passed in and converted into keyword
+    arguments.
+
+    So with a definition like: ::
+
+        from wingcommander.utils import smartparse, alias
+
+        @ShellApp.command
+        @smartparse
+        @alias("debug", "d", "dbg")
+        def run_stuff(_, debug=False, what="test"):
+            return [name] if not debug else ["debug: {}".format(name)]
+
+    Would produce: ::
+
+        $ run_stuff
+        test
+        $ run_stuff --name notest
+        notest
+        $ run_stuff --debug
+        debug: test
+        $ run_stuff -d --name debugtest
+        debug: debugtest
+
+    '''
     parser = func if isinstance(func, Parser) else Parser(func)
     parser.smartparse = True
 
@@ -95,6 +125,14 @@ def smartparse(func):
 
 
 def alias(full, *short):
+    '''Adds an alias definition to a smartparsed command defition.
+
+    (see :func:`smartparse <smartparse>`)
+
+    :param full: keyword argument to be aliased
+    :param short: all other parameters are the aliases that will be translated
+     into the ``full`` keyword.
+    '''
     def decorator(func):
         parser = func if isinstance(func, Parser) else Parser(func)
         parser.add_alias(full, *short)
