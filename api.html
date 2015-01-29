@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Library API &mdash; Wing Commander 0.1.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wing Commander 0.1.5 documentation" href="index.html" />
+    <link rel="prev" title="Completions" href="user/completions.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="user/completions.html" title="Completions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Wing Commander 0.1.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-wingcommander">
+<span id="library-api"></span><span id="api"></span><h1>Library API<a class="headerlink" href="#module-wingcommander" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="wingcommander.WingCommander">
+<em class="property">class </em><tt class="descclassname">wingcommander.</tt><tt class="descname">WingCommander</tt><big>(</big><em>name=''</em>, <em>parent=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#wingcommander.WingCommander" title="Permalink to this definition">¶</a></dt>
+<dd><p>Master class for command line applications.</p>
+<p>Use as the base class for the definition of a command line application.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> &#8211; name of the application</li>
+<li><strong>parent</strong> &#8211; (optional) parent &lt;WingCommander&gt; object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">wingcommander</span> <span class="kn">import</span> <span class="n">WingCommander</span>
+
+<span class="k">class</span> <span class="nc">ShellApp</span><span class="p">(</span><span class="n">WingCommander</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">ShellApp</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;example&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="classmethod">
+<dt id="wingcommander.WingCommander.command">
+<em class="property">classmethod </em><tt class="descname">command</tt><big>(</big><em>cmd=None</em>, <em>completions=None</em><big>)</big><a class="headerlink" href="#wingcommander.WingCommander.command" title="Permalink to this definition">¶</a></dt>
+<dd><p>decorator method to convert a function and properties into a command
+for the new command line application.</p>
+<p>returns a <a class="reference internal" href="#wingcommander.Command" title="wingcommander.Command"><tt class="xref py py-class docutils literal"><span class="pre">Command</span></tt></a> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>completions</strong> &#8211; (optional) A completion definition (see:
+<a class="reference internal" href="user/completions.html"><em>Completions</em></a>)</li>
+<li><strong>cmd</strong> &#8211; function to be converted into a command in the application
+(it is the one being decorated)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@ShellApp.command</span>
+<span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">count</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">app</span><span class="o">.</span><span class="n">count</span>
+
+<span class="nd">@ShellApp.command</span><span class="p">(</span><span class="n">completions</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;start&quot;</span><span class="p">,</span> <span class="s">&quot;stop&quot;</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">app</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&quot;start&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&quot;start&quot;</span><span class="p">:</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s">&quot;started&quot;</span>
+    <span class="k">elif</span> <span class="n">action</span> <span class="o">==</span> <span class="s">&quot;stop&quot;</span><span class="p">:</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s">&quot;stopped&quot;</span>
+    <span class="k">return</span> <span class="bp">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wingcommander.Command">
+<em class="property">class </em><tt class="descclassname">wingcommander.</tt><tt class="descname">Command</tt><big>(</big><em>command</em><big>)</big><a class="headerlink" href="#wingcommander.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper class for commands/actions used in a
+<a class="reference internal" href="#wingcommander.WingCommander" title="wingcommander.WingCommander"><tt class="xref py py-class docutils literal"><span class="pre">WingCommander</span></tt></a></p>
+<p>Base wrapper for the commands used in the <tt class="docutils literal"><span class="pre">WingCommander</span></tt> controller.
+It is meant to provide an accessible and extensible API around the
+functionality added via the CLI behavior of the controller.</p>
+<p>Can be created manually and imported:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">echo_func</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="n">echo</span> <span class="o">=</span> <span class="n">Command</span><span class="p">(</span><span class="n">echo_func</span><span class="p">)</span>
+<span class="n">echo</span><span class="o">.</span><span class="n">update_help</span><span class="p">(</span><span class="s">&quot;echoes whatever you give it&quot;</span><span class="p">)</span>
+<span class="n">ShellApp</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">echo</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="wingcommander.Command.update_completion">
+<tt class="descname">update_completion</tt><big>(</big><em>completions</em><big>)</big><a class="headerlink" href="#wingcommander.Command.update_completion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the completion set for the <tt class="docutils literal"><span class="pre">Command</span></tt> in the command line
+interface. This takes any of the <a class="reference internal" href="user/completions.html"><em>Completions</em></a> accepted types
+and generates a new tab completion function.  This can be a <tt class="docutils literal"><span class="pre">list</span></tt> of
+any possible arguments that can be completed at any position, a
+<tt class="docutils literal"><span class="pre">dict</span></tt> of arguments based on inherited position, or a function that
+will be used as the entire completion function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>completions</strong> &#8211; completion set as described above and in the
+<a class="reference internal" href="user/completions.html"><em>Completions</em></a> section.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wingcommander.Command.update_help">
+<tt class="descname">update_help</tt><big>(</big><em>txt</em><big>)</big><a class="headerlink" href="#wingcommander.Command.update_help" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the help text associated with the <tt class="docutils literal"><span class="pre">Command</span></tt> in the master
+application.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>txt</strong> &#8211; string containing the new help text to be displayed by the
+help command for this command.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="module-wingcommander.util">
+<span id="utility-functions"></span><h2>Utility Functions<a class="headerlink" href="#module-wingcommander.util" title="Permalink to this headline">¶</a></h2>
+<p>WingCommmander comes with a variety of functions to provide easy implementation of
+behaviors common to the everyday unix command line.</p>
+<dl class="function">
+<dt id="wingcommander.util.watch">
+<tt class="descclassname">wingcommander.util.</tt><tt class="descname">watch</tt><big>(</big><em>func</em>, <em>wait=1</em><big>)</big><a class="reference internal" href="_modules/wingcommander/util.html#watch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wingcommander.util.watch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Behaves like the <tt class="docutils literal"><span class="pre">watch</span></tt> command from unix command line.  Will
+refresh the terminal stdout area at a specific interval with the output
+from a defined function.  This can be used to regularly show output from an
+external source and provide a realtime updating text area that will resize
+with the data to display.  Can be stopped with user input from stdin.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>func</strong> &#8211; function that is to be generating the output to be displayed.
+The output is whatever the function returns on each execution.</li>
+<li><strong>wait</strong> &#8211; amount of time to sleep between executions of the function in
+order to update the display</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">wingcommander.util</span> <span class="kn">import</span> <span class="n">watch</span>
+
+<span class="k">def</span> <span class="nf">print_file</span><span class="p">():</span>
+    <span class="n">contents</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">contents</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">contents</span>
+
+<span class="n">watch</span><span class="p">(</span><span class="n">print_file</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="wingcommander.util.tablize">
+<tt class="descclassname">wingcommander.util.</tt><tt class="descname">tablize</tt><big>(</big><em>data, max_length=-1, keys=None, dividers=['|', '', ''], labels=None, alignment=None</em><big>)</big><a class="headerlink" href="#wingcommander.util.tablize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts a tabular set of data into an aligned table for easier display
+in the terminal.</p>
+<p>There are a number of options for customizing the output.  The <tt class="docutils literal"><span class="pre">keys</span></tt>
+parameter will limit the keys to pull from each <tt class="docutils literal"><span class="pre">dict</span></tt> of data in the
+dataset.  The <tt class="docutils literal"><span class="pre">labels</span></tt> parameter enables the header row and fills in
+the labels for each column.</p>
+<p>The <tt class="docutils literal"><span class="pre">dividers</span></tt> parameter is used to configure the characters used to
+divide the various data cells.  It is a <cite>list</cite> of length 3 that is defined:</p>
+<ol class="arabic simple" start="0">
+<li>The character used to divide between columns</li>
+<li>The character used to divide between rows</li>
+<li>The character used when the division between columns and rows occurs</li>
+</ol>
+<p>The default is to display a pipe between columns and nothing between rows.
+A more ornamental set of dividers using box drawing characters, it can be
+found by importing <tt class="docutils literal"><span class="pre">BOX_DIVIDERS</span></tt> from <tt class="docutils literal"><span class="pre">wingcommander.util.tablize</span></tt>.</p>
+<p>The <tt class="docutils literal"><span class="pre">alignment</span></tt> parameter is used to determine the alignment of the
+text in each column.  The list should mirror the number of columns
+available and should probably be used with the <tt class="docutils literal"><span class="pre">keys</span></tt> parameter.  The
+possible values are <tt class="docutils literal"><span class="pre">l</span></tt>, <tt class="docutils literal"><span class="pre">c</span></tt>, and <tt class="docutils literal"><span class="pre">r</span></tt> which correspond to
+left, center, and right aligned text respectively.  You can also use the
+values <tt class="docutils literal"><span class="pre">LEFT</span></tt>, <tt class="docutils literal"><span class="pre">CENTER</span></tt>, and <tt class="docutils literal"><span class="pre">RIGHT</span></tt> from the
+<tt class="docutils literal"><span class="pre">wingcommander.util.tablize</span></tt> module.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> &#8211; a <tt class="docutils literal"><span class="pre">list</span></tt> of <tt class="docutils literal"><span class="pre">dict</span></tt> sets of data to be displayed</li>
+<li><strong>max_length</strong> &#8211; a limit on the maximum wdith of a column/length of a
+data point, a value of -1 means there is no limit</li>
+<li><strong>keys</strong> &#8211; a <tt class="docutils literal"><span class="pre">list</span></tt> of keys to be used from the <tt class="docutils literal"><span class="pre">dict</span></tt> of data
+provided, if this is set to <tt class="docutils literal"><span class="pre">None</span></tt> all of the keys will be used</li>
+<li><strong>dividers</strong> &#8211; a <tt class="docutils literal"><span class="pre">list</span></tt> defining the dividers to use when displaying
+the tabular data.</li>
+<li><strong>labels</strong> &#8211; a <tt class="docutils literal"><span class="pre">list</span></tt> of the labels to be displayed above the table,
+if <tt class="docutils literal"><span class="pre">None</span></tt> no labels will be displayed</li>
+<li><strong>alignment</strong> &#8211; a <tt class="docutils literal"><span class="pre">list</span></tt> of the alignment setup associated with each
+column</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">wingcommander.util</span> <span class="kn">import</span> <span class="n">tablize</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">wingcommander.util.tablize</span> <span class="kn">import</span> <span class="n">BOX_DIVIDERS</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">RIGHT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tablize</span><span class="p">([{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Joe&quot;</span><span class="p">,</span> <span class="s">&quot;occupation&quot;</span><span class="p">:</span> <span class="s">&quot;Teacher&quot;</span><span class="p">,</span> <span class="s">&quot;age&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">},</span>
+<span class="gp">... </span>  <span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Jane&quot;</span><span class="p">,</span> <span class="s">&quot;occupation&quot;</span><span class="p">:</span> <span class="s">&quot;Engineer&quot;</span><span class="p">,</span> <span class="s">&quot;age&quot;</span><span class="p">:</span> <span class="mi">27</span><span class="p">},</span>
+<span class="gp">... </span>  <span class="p">{</span><span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;Mark&quot;</span><span class="p">,</span> <span class="s">&quot;occupation&quot;</span><span class="p">:</span> <span class="s">&quot;Astronomer&quot;</span><span class="p">,</span> <span class="s">&quot;age&quot;</span><span class="p">:</span> <span class="mi">33</span><span class="p">}],</span>
+<span class="gp">... </span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">,</span> <span class="s">&quot;occupation&quot;</span><span class="p">,</span> <span class="s">&quot;age&quot;</span><span class="p">],</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+<span class="gp">... </span> <span class="n">dividers</span><span class="o">=</span><span class="n">BOX_DIVIDERS</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="p">,</span> <span class="s">&quot;Job&quot;</span><span class="p">,</span> <span class="s">&quot;Age&quot;</span><span class="p">],</span>
+<span class="gp">... </span> <span class="n">alignment</span><span class="o">=</span><span class="p">[</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="go">Name │ Job     │ Age</span>
+<span class="go">─────┼─────────┼─────</span>
+<span class="go">Joe  │ Teacher │  45</span>
+<span class="go">─────┼─────────┼─────</span>
+<span class="go">Jane │ Enginee │  27</span>
+<span class="go">─────┼─────────┼─────</span>
+<span class="go">Mark │ Astrono │  33</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="wingcommander.util.alias">
+<tt class="descclassname">wingcommander.util.</tt><tt class="descname">alias</tt><big>(</big><em>full</em>, <em>*short</em><big>)</big><a class="headerlink" href="#wingcommander.util.alias" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an alias definition to a smartparsed command defition.</p>
+<p>(see <a class="reference internal" href="#wingcommander.util.smartparse" title="wingcommander.util.smartparse"><tt class="xref py py-func docutils literal"><span class="pre">smartparse</span></tt></a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>full</strong> &#8211; keyword argument to be aliased</li>
+<li><strong>short</strong> &#8211; all other parameters are the aliases that will be translated
+into the <tt class="docutils literal"><span class="pre">full</span></tt> keyword.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="wingcommander.util.smartparse">
+<tt class="descclassname">wingcommander.util.</tt><tt class="descname">smartparse</tt><big>(</big><em>func</em><big>)</big><a class="headerlink" href="#wingcommander.util.smartparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the arguments going into the wrapped function to be
+intelligently parsed.</p>
+<p>The function will have its arguments parsed and translated based on the
+rules defined in the decorators of the function using the <tt class="docutils literal"><span class="pre">alias</span></tt>
+decorator to allow for flags to be passed in and converted into keyword
+arguments.</p>
+<p>So with a definition like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">wingcommander.utils</span> <span class="kn">import</span> <span class="n">smartparse</span><span class="p">,</span> <span class="n">alias</span>
+
+<span class="nd">@ShellApp.command</span>
+<span class="nd">@smartparse</span>
+<span class="nd">@alias</span><span class="p">(</span><span class="s">&quot;debug&quot;</span><span class="p">,</span> <span class="s">&quot;d&quot;</span><span class="p">,</span> <span class="s">&quot;dbg&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">run_stuff</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s">&quot;test&quot;</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span> <span class="k">else</span> <span class="p">[</span><span class="s">&quot;debug: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Would produce:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ run_stuff
+test
+$ run_stuff --name notest
+notest
+$ run_stuff --debug
+debug: test
+$ run_stuff -d --name debugtest
+debug: debugtest
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.jpg" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=jdost&repo=wingcommander&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/jdost/wingcommander">
+    <img
+        alt="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+        src="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+    >
+</a>
+</p>
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="user/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/completions.html">Completions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Library API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-wingcommander.util">Utility Functions</a></li>
+</ul>
+</li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, jdost.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.3</a>
+      
+      |
+      <a href="_sources/api.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Quickstart &mdash; Wing Commander 0.1.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Wing Commander 0.1.5 documentation" href="../index.html" />
+    <link rel="next" title="Completions" href="completions.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="completions.html" title="Completions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Wing Commander 0.1.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="quickstart">
+<span id="id1"></span><h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h1>
+<p>The goal of <tt class="docutils literal"><span class="pre">WingCommander</span></tt> is to be easy to write a command line interface for
+an application.  Getting an application up and running takes three simple steps:</p>
+<ol class="arabic simple">
+<li>Defining the application base class</li>
+<li>Adding commands to the application</li>
+<li>Constructing the application from the base class and running it</li>
+</ol>
+<div class="section" id="definition">
+<h2>Definition<a class="headerlink" href="#definition" title="Permalink to this headline">¶</a></h2>
+<p>In order to define the application, you just need to define the class using the
+<tt class="docutils literal"><span class="pre">WingCommander</span></tt> class included in the module:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">wingcommander</span> <span class="kn">import</span> <span class="n">WingCommander</span>
+
+<span class="k">class</span> <span class="nc">LunchOrderer</span><span class="p">(</span><span class="n">WingCommander</span><span class="p">):</span>
+   <span class="n">ordered</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="n">location</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Once this is done, you can begin adding in commands for the application.</p>
+</div>
+<div class="section" id="adding-commands">
+<h2>Adding Commands<a class="headerlink" href="#adding-commands" title="Permalink to this headline">¶</a></h2>
+<p>Once you have a class defined for your application, you can begin adding in commands
+to the interface using the <tt class="docutils literal"><span class="pre">.command</span></tt> method as a decorator:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@LunchOrderer.command</span>
+<span class="k">def</span> <span class="nf">ordered</span><span class="p">(</span><span class="n">lunch</span><span class="p">):</span>
+   <span class="sd">&#39;&#39;&#39; ordered -</span>
+<span class="sd">      Tells you want you have already ordered.</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="k">return</span> <span class="n">lunch</span><span class="o">.</span><span class="n">ordered</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lunch</span><span class="o">.</span><span class="n">ordered</span><span class="p">)</span> <span class="k">else</span> <span class="bp">None</span>
+</pre></div>
+</div>
+<p>Now you can see what you last ordered with the <tt class="docutils literal"><span class="pre">ordered</span></tt> command.  But how can you
+see what you last ordered without first being able to order.  Let&#8217;s add that ability
+with some of our favorite lunches:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@LunchOrderer.command</span><span class="p">(</span><span class="n">completions</span><span class="o">=</span>
+   <span class="p">{</span> <span class="s">&quot;chikfila&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;sandwich&quot;</span><span class="p">,</span> <span class="s">&quot;nuggets&quot;</span><span class="p">,</span> <span class="s">&quot;fries&quot;</span><span class="p">],</span>
+     <span class="s">&quot;kfc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;drumsticks&quot;</span><span class="p">,</span> <span class="s">&quot;wings&quot;</span><span class="p">],</span>
+     <span class="s">&quot;chinese&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;kungpao&quot;</span><span class="p">,</span> <span class="s">&quot;friedrice&quot;</span><span class="p">,</span> <span class="s">&quot;lomein&quot;</span><span class="p">]</span> <span class="p">})</span>
+<span class="k">def</span> <span class="nf">order</span><span class="p">(</span><span class="n">lunch</span><span class="p">,</span> <span class="n">place</span><span class="p">,</span> <span class="n">food</span><span class="p">):</span>
+   <span class="n">lunch</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">place</span><span class="p">)</span>
+   <span class="n">lunch</span><span class="o">.</span><span class="n">ordered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">food</span><span class="p">)</span>
+   <span class="k">return</span> <span class="s">&quot;You ordered {} from {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">food</span><span class="p">,</span> <span class="n">place</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now you can order some food with the <tt class="docutils literal"><span class="pre">order</span></tt> command.  It even gives you tab
+completion for your favorite places and the foods that they serve!</p>
+</div>
+<div class="section" id="running-everything">
+<h2>Running Everything<a class="headerlink" href="#running-everything" title="Permalink to this headline">¶</a></h2>
+<p>Now all you need to do is run this.  There is an included <tt class="docutils literal"><span class="pre">run</span></tt> function which
+takes care of starting the CLI application.  You just need:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+   <span class="n">orderer</span> <span class="o">=</span> <span class="n">LunchOrderer</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;Lunch&quot;</span><span class="p">)</span>
+   <span class="n">run</span><span class="p">(</span><span class="n">orderer</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=jdost&repo=wingcommander&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/jdost/wingcommander">
+    <img
+        alt="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+        src="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+    >
+</a>
+</p>
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#definition">Definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-commands">Adding Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-everything">Running Everything</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="completions.html">Completions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Library API</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, jdost.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.3</a>
+      
+      |
+      <a href="../_sources/user/quickstart.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Wing Commmander &mdash; Wing Commander 0.1.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Wing Commander 0.1.5 documentation" href="#" />
+    <link rel="next" title="Introduction" href="user/introduction.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="user/introduction.html" title="Introduction"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Wing Commander 0.1.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="wing-commmander">
+<h1>Wing Commmander<a class="headerlink" href="#wing-commmander" title="Permalink to this headline">¶</a></h1>
+<p>Wing Commander is a Python Library to ease the creation of command line interface
+(CLI) applications.  It extends the built in <a class="reference external" href="https://docs.python.org/2/library/cmd.html">cmd</a> library to make the setup more
+pythonic by using decorators and leveraging things like docstrings and providing
+helpers for other things.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">wingcommander</span> <span class="kn">import</span> <span class="n">WingCommander</span>
+
+
+<span class="k">class</span> <span class="nc">MyShellApplication</span><span class="p">(</span><span class="n">WingCommander</span><span class="p">):</span>
+   <span class="k">pass</span>
+
+<span class="nd">@MyShellApplication.command</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">shell</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+   <span class="sd">&#39;&#39;&#39; Greets whatever you tell it to.</span>
+<span class="sd">   &#39;&#39;&#39;</span>
+   <span class="k">return</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&quot;hello&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user/introduction.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#how-is-this-pythonic">How is this Pythonic?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#extending">Extending</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/introduction.html#intuitive">Intuitive</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/quickstart.html#definition">Definition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/quickstart.html#adding-commands">Adding Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/quickstart.html#running-everything">Running Everything</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user/completions.html">Completions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user/completions.html#syntax-note">Syntax Note</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/completions.html#completion-function">Completion Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user/completions.html#generation-helpers">Generation Helpers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Library API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-wingcommander.util">Utility Functions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="#">
+    <img class="logo" src="_static/logo.jpg" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=jdost&repo=wingcommander&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/jdost/wingcommander">
+    <img
+        alt="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+        src="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+    >
+</a>
+</p>
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user/introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user/completions.html">Completions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Library API</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, jdost.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.3</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

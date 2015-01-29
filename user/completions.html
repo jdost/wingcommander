@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Completions &mdash; Wing Commander 0.1.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Wing Commander 0.1.5 documentation" href="../index.html" />
+    <link rel="next" title="Library API" href="../api.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api.html" title="Library API"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Wing Commander 0.1.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="completions">
+<span id="id1"></span><h1>Completions<a class="headerlink" href="#completions" title="Permalink to this headline">¶</a></h1>
+<p>The completion engine provided by the base python <tt class="docutils literal"><span class="pre">cmd</span></tt> module is very confusing
+and not easily approachable.  There are a few helper methods provided (and used by
+default) to generate the completions for a command in the various stages of the
+command composition.</p>
+<div class="section" id="syntax-note">
+<h2>Syntax Note<a class="headerlink" href="#syntax-note" title="Permalink to this headline">¶</a></h2>
+<p>Throughout this page, there will be sections that show the state of a command being
+composed and completions being requested.  The syntax used will include a character
+<tt class="docutils literal"><span class="pre">▯</span></tt> in the line where the completion is requested (this is normally done using
+<tt class="docutils literal"><span class="pre">&lt;Tab&gt;</span></tt>).  So in:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ complete this▯
+</pre></div>
+</div>
+<p>The completion will be for the <tt class="docutils literal"><span class="pre">this</span></tt> argument in the composition (based on the
+<tt class="docutils literal"><span class="pre">complete</span></tt> command).</p>
+</div>
+<div class="section" id="completion-function">
+<h2>Completion Function<a class="headerlink" href="#completion-function" title="Permalink to this headline">¶</a></h2>
+<p>If you want to write your own completion function, you need to have it meet the
+argument map compatible with the underlying readline interface used by the include
+<tt class="docutils literal"><span class="pre">cmd</span></tt> module.</p>
+<p>The basic signature of the function used to generate completions looks like:</p>
+<div class="highlight-python"><div class="highlight"><pre>def completion_func(current_argument, command_text, *_args)
+</pre></div>
+</div>
+<ul class="simple">
+<li>The <tt class="docutils literal"><span class="pre">*_args</span></tt> is just a collection of the other arguments passed in, they are
+<tt class="docutils literal"><span class="pre">begidx</span></tt> and <tt class="docutils literal"><span class="pre">endidx</span></tt> .</li>
+<li>The <tt class="docutils literal"><span class="pre">current_argument</span></tt> is the active &#8220;word&#8221; in the overall command composition.</li>
+<li>The <tt class="docutils literal"><span class="pre">command_text</span></tt> is the full argument string for the command being composed.</li>
+</ul>
+<p>For example in the case of</p>
+<div class="highlight-python"><div class="highlight"><pre>$ set name Mar▯
+</pre></div>
+</div>
+<p>The values would be <tt class="docutils literal"><span class="pre">Mar</span></tt> for <tt class="docutils literal"><span class="pre">current_argument</span></tt> and <tt class="docutils literal"><span class="pre">set</span> <span class="pre">name</span> <span class="pre">Mar</span></tt> for
+<tt class="docutils literal"><span class="pre">command_text</span></tt>.</p>
+</div>
+<div class="section" id="generation-helpers">
+<h2>Generation Helpers<a class="headerlink" href="#generation-helpers" title="Permalink to this headline">¶</a></h2>
+<p>You can also provide either a <tt class="docutils literal"><span class="pre">list</span></tt> or <tt class="docutils literal"><span class="pre">dict</span></tt> to be converted into a completion
+function.  The <tt class="docutils literal"><span class="pre">list</span></tt> just dictates possible values that can be suggested
+regardless of the state of the other arguments (the order is arbitrary).  So with a
+completion set of <tt class="docutils literal"><span class="pre">foo,</span> <span class="pre">bar,</span> <span class="pre">baz</span></tt> the completions would be:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ complete foo ba▯
+bar baz
+$ complete ba▯
+bar baz
+$ complete foo bar ba▯
+bar baz
+</pre></div>
+</div>
+<p>If you provide a <tt class="docutils literal"><span class="pre">dict</span></tt>, the keys make up the first layer of suggestions for the
+command.  Then the second layer is made up of the value of the key corresponding to
+the first argument, if this value is a <tt class="docutils literal"><span class="pre">dict</span></tt>, it is used the same way, if it is a
+<tt class="docutils literal"><span class="pre">list</span></tt> it behaves the same was as above.  If the completion set is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span> <span class="s">&quot;language&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;spanish&quot;</span><span class="p">,</span> <span class="s">&quot;french&quot;</span><span class="p">,</span> <span class="s">&quot;english&quot;</span><span class="p">],</span>
+  <span class="s">&quot;os&quot;</span><span class="p">:</span> <span class="p">{</span> <span class="s">&quot;bsd&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;freebsd&quot;</span><span class="p">,</span> <span class="s">&quot;openbsd&quot;</span><span class="p">],</span>
+          <span class="s">&quot;linux&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;debian&quot;</span><span class="p">,</span> <span class="s">&quot;arch&quot;</span><span class="p">,</span> <span class="s">&quot;gentoo&quot;</span><span class="p">]</span> <span class="p">},</span>
+  <span class="s">&quot;wm&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;xmonad&quot;</span><span class="p">,</span> <span class="s">&quot;openbox&quot;</span><span class="p">,</span> <span class="s">&quot;gnome&quot;</span><span class="p">]</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>The completions would look like:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ complete ▯
+language os wm
+$ complete lang▯
+language
+$ complete language ▯
+spanish french english
+$ complete os ▯
+bsd linux
+$ complete os linux ▯
+debian arch gentoo
+$ compelte os bsd ▯
+freebsd openbsd
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=jdost&repo=wingcommander&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/jdost/wingcommander">
+    <img
+        alt="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+        src="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+    >
+</a>
+</p>
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Completions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#syntax-note">Syntax Note</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#completion-function">Completion Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#generation-helpers">Generation Helpers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Library API</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, jdost.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.3</a>
+      
+      |
+      <a href="../_sources/user/completions.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

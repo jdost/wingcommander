@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Wing Commander 0.1.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Wing Commander 0.1.5 documentation" href="../index.html" />
+    <link rel="next" title="Quickstart" href="quickstart.html" />
+    <link rel="prev" title="Wing Commmander" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="Quickstart"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Wing Commmander"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Wing Commander 0.1.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="introduction">
+<span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>When trying to create Python applications that provide a convenient and easy to use
+and write command line interface (CLI), there is no real option.  One can either
+create a simple conditional chain and read using the <tt class="docutils literal"><span class="pre">input</span></tt> function, but lose
+most of the strengths of a &#8220;rich&#8221; CLI such as a unix shell like Bash or Zsh.  Or
+you can try and implement an application using the include <tt class="docutils literal"><span class="pre">cmd_</span></tt> module which
+provides a well set up readline interface, but adding in commands, help text for
+those commands, and enabling tab completion is confusing and unintuitive.</p>
+<p>The goal of <tt class="docutils literal"><span class="pre">WingCommander</span></tt> is to provide a &#8220;pythonic&#8221; interface for writing
+reusable functions that can be added into a common CLI application class that can
+be easily executed and interacted with from the commandline.  The main goals are:</p>
+<ul class="simple">
+<li><em>pythonic:</em> meaning the interface for adding and configuring commands for the
+application should use common python concepts and leverage built in features of
+the language</li>
+<li><em>extensible:</em> adding commands to an application, replacing built in functionality,
+or adding in additional functionality should all be intuitive and easily achieved.</li>
+<li><em>intuitive:</em> it should not be frustrating to switch from using a common unix shell
+like <a class="reference external" href="http://zsh.sourceforge.net/">Zsh</a> or <a class="reference external" href="http://www.gnu.org/software/bash/">Bash</a> into a <tt class="docutils literal"><span class="pre">WingCommander</span></tt> based application, meaning things like
+tab completion and other common helper commands all carry through</li>
+</ul>
+<div class="section" id="how-is-this-pythonic">
+<h2>How is this Pythonic?<a class="headerlink" href="#how-is-this-pythonic" title="Permalink to this headline">¶</a></h2>
+<p>The interface makes heavy use of decorators to add additional functionality and
+definition to a simple python function.  The decorators are meant to do the heavy
+lifting and interfacing with the internal interface for the CLI application.  This
+includes generating completions for a command based on any state of the command
+line, using the docstring of the function to provide the helper text for the
+command, and adding &#8220;smart&#8221; parsing rules for flags passed into a command (having
+<tt class="docutils literal"><span class="pre">-d</span></tt> and <tt class="docutils literal"><span class="pre">--debug</span></tt> mean the same thing).</p>
+<p>If there is any point where how to implement some included functionality is
+confusing or jarring, file and issue and it should be addressed.  This module is
+meant to make writing CLI applications easy, not confusing.</p>
+</div>
+<div class="section" id="extending">
+<h2>Extending<a class="headerlink" href="#extending" title="Permalink to this headline">¶</a></h2>
+<p>All of the included functionality uses simple interfaces that are also exposed by
+the module.  So anything that is currently being done should also be possible to
+quickly reimplement with your own changes.  None of those nested private attributes
+and methods that you can&#8217;t easily call or override.</p>
+</div>
+<div class="section" id="intuitive">
+<h2>Intuitive<a class="headerlink" href="#intuitive" title="Permalink to this headline">¶</a></h2>
+<p>Being a <em>big</em> shell user, it is paramount for a CLI application to work in the same
+sorts of ways as other commands in a shell.  Things such as piping, redirecting
+input and output, tab completion, history searching, among others are all either
+implemented, being implemented, or on the roadmap.  If there is some common shell
+feature that is missing, file a feature request for it if it is not already on the
+<a class="reference internal" href="ideas.html"><em>Ideas</em></a> page.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="../index.html">
+    <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=jdost&repo=wingcommander&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+    
+
+<p>
+<a href="https://travis-ci.org/jdost/wingcommander">
+    <img
+        alt="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+        src="https://secure.travis-ci.org/jdost/wingcommander.png?branch=master"
+    >
+</a>
+</p>
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-is-this-pythonic">How is this Pythonic?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extending">Extending</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#intuitive">Intuitive</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="completions.html">Completions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Library API</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, jdost.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.3</a>
+      
+      |
+      <a href="../_sources/user/introduction.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
