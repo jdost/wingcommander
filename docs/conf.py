@@ -31,7 +31,7 @@ copyright = u'2015, jdost'
 version = __version__
 release = __version__
 
-exclude_patterns = ['_build']
+exclude_patterns = ['build']
 html_theme = 'alabaster'
 html_theme_path = [alabaster.get_path()]
 pygments_style = 'sphinx'
@@ -42,7 +42,7 @@ highlight_language = "python"
 # html_logo = None
 # html_favicon = None
 
-html_static_path = ['_static']
+html_static_path = ['static']
 html_sidebars = {
     "**": ["about.html", "navigation.html", "searchbox.html"]
 }
