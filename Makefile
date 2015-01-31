@@ -53,6 +53,8 @@ docs-serve:
 
 docs-publish: clean docs
 	git co gh-pages
+	git rm *
 	mv docs/build/html/* .
+	rm -rf docs/build/
 	git commit -a
 	git push
