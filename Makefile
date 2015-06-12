@@ -25,6 +25,13 @@ clean:
 	rm -f ./src/wingcommander/util/*.pyc
 	rm -f ./tests/*.pyc
 
+clean-build:
+	rm -rf ./build/
+	rm -rf ./dist/
+	rm -rf *.egg-info
+
+clean-all: clean clean-build
+
 shell:
 	${PYTHONPATH} python
 
