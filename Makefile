@@ -2,7 +2,9 @@ PYTHONVERSION = $(shell python --version 2>&1 | sed 's/Python //g')
 PYTHONMAJOR = $(firstword $(subst ., ,${PYTHONVERSION}))
 PYTHONPATH = PYTHONPATH=$(PWD)/src
 
-ifeq "${PYTHONMAJOR}" "2"
+ifneq "${NOCOLOR}" ""
+	NOSEOPTS =
+else ifeq "${PYTHONMAJOR}" "2"
 	NOSEOPTS = --with-color
 else
 	NOSEOPTS =
