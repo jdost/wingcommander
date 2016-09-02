@@ -1,3 +1,5 @@
+from wingcommander.util import ansi as ANSI
+
 __all__ = ["gen_prompt", "is_iterable", "run", "watch", "tablize",
            "gen_completion", "alias", "smartparse"]
 
@@ -77,9 +79,9 @@ def watch(func, wait=1):
     try:
         while True:
             if longest > 0:  # ANSI goes up n lines at start
-                sys.stdout.write("\033[2K\033[F" * (longest))
+                sys.stdout.write((ANSI.EL(2) + ANSI.CPL()) * (longest))
             else:  # clear line, move to start
-                sys.stdout.write("\033[2K\033[0G")
+                sys.stdout.write(ANSI.EL(2) + ANSI.CHA(0))
 
             output = func()
             if isinstance(output, str):
