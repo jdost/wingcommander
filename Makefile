@@ -5,7 +5,7 @@ PYTHONPATH = PYTHONPATH=$(PWD)/src
 ifneq "${NOCOLOR}" ""
 	NOSEOPTS =
 else ifeq "${PYTHONMAJOR}" "2"
-	NOSEOPTS = --with-color
+	NOSEOPTS = --rednose
 else
 	NOSEOPTS =
 endif
